@@ -1,0 +1,37 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: ias_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ias_user
+      POSTGRES_PASSWORD: ias_password
+      POSTGRES_DB: ias_research_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7
+    container_name: ias_redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  chroma:
+    image: chromadb/chroma:latest
+    container_name: ias_chroma
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    volumes:
+      - chroma_data:/chroma/chroma
+
+volumes:
+  postgres_data:
+  redis_data:
+  chroma_data:
+
